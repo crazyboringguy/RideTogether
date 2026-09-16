@@ -1,0 +1,26 @@
+# Environment and secrets
+.env
+.env.*
+!.env.example
+
+# JavaScript / TypeScript
+node_modules/
+.pnpm-store/
+dist/
+.next/
+coverage/
+
+# Flutter / Dart
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+build/
+
+# Editors and operating systems
+.idea/
+.vscode/
+*.iml
+*.log
+Thumbs.db
+Desktop.ini
