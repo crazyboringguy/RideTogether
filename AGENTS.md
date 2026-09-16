@@ -1,32 +1,61 @@
 # Repository Guidelines
 
-## Project Structure & Module Organization
+## Project Status and Scope
 
-RideTogether is currently a starter repository containing only `README.md`; no application, build system, or test framework has been committed yet. Keep the root for repository-wide configuration and documentation. As the application is introduced, use this layout:
+RideTogether is a group-travel safety and coordination platform for road trips, motorcycle
+convoys, trekking groups, and multi-day journeys. **Phase 1 — Foundation is complete.** Develop
+incrementally by phase; do not implement a future phase unless it is explicitly requested.
 
-- `src/` for production source code, organized by feature or domain.
-- `tests/` for automated tests, mirroring paths under `src/` where practical.
-- `assets/` for checked-in static resources such as icons, images, or fixtures.
-- `docs/` for design notes and operational documentation.
+Phase 1 provides only a Flutter branded application shell and test, an Express `GET /health`
+endpoint and test, a Next.js family-viewer foundation and test, a PostgreSQL schema-foundation
+migration, workspace/repository configuration, documentation, and an environment template.
 
-Do not commit generated output, local secrets, or editor-specific files; add them to `.gitignore`.
+Authentication, user accounts, trip creation or joining, database-backed trip data, GPS/location
+sharing, Socket.IO, live maps, quick statuses, chat, separation detection, emergency flows, family
+live-sharing links, trip completion/history, recommendations, hotels, trekking or multi-day
+features, Fun Mode, and AI are not implemented.
 
-## Build, Test, and Development Commands
+## Project Structure
 
-There are no runnable build, development, lint, or test commands at present. When adding tooling, record canonical commands in `README.md` and keep them reproducible from a clean checkout. For example, a JavaScript project should expose `npm run dev`, `npm test`, `npm run lint`, and `npm run build` through `package.json`.
+This repository is a monorepo:
 
-## Coding Style & Naming Conventions
+- `apps/mobile/`: Flutter/Dart mobile application.
+- `apps/api/`: Node.js, Express, and strict TypeScript backend.
+- `apps/family-web/`: Next.js/TypeScript family trip viewer foundation.
+- `packages/`: reserved shared API-contract, domain, and configuration placeholders.
+- `infra/`: database migration and future infrastructure foundation.
+- `docs/`: architecture, API, privacy/safety, and decision documentation.
 
-Follow the configured formatter and linter; do not hand-format around automated tools. Until one is established, use consistent indentation and small, focused modules. Use descriptive names: `ride-request.ts`, `RideRequest`, and `createRideRequest` are preferable to abbreviations. Keep test names explicit about the expected behavior.
+Keep the three applications independent. Add shared runtime code only when it serves a proven
+cross-application need. Preserve the documented architecture and keep modules focused.
 
-## Testing Guidelines
+## Development and Quality
 
-Add tests for every behavior change once a framework is selected. Place them in `tests/` or next to modules only if documented. Use names such as `ride-request.test.ts` and test observable outcomes, including invalid input and failure paths. Run the full suite and linting before opening a pull request; add coverage expectations when the runner is introduced.
+Before substantial work, inspect the relevant code and documentation. Avoid unnecessary
+dependencies. Add or update real tests for changed behavior, then run the relevant validation:
 
-## Commit & Pull Request Guidelines
+```powershell
+pnpm lint
+pnpm test
+pnpm api:build
+pnpm web:build
+pnpm format:check
+Set-Location apps/mobile; flutter analyze; flutter test
+```
 
-The available history contains only `Initial commit`, so no convention exists. Use short imperative summaries, optionally scoped: `feat: add ride request validation` or `docs: clarify local setup`. Keep commits focused. Pull requests should explain the change and validation performed, link the relevant issue when one exists, and include screenshots for visual changes.
+Follow the configured formatter and linter. Use descriptive names and small, cohesive modules.
+Update `README.md` and `docs/` when a change alters documented behavior or architecture.
 
-## Configuration & Security
+## Safety, Privacy, and Configuration
 
-Never commit credentials, API keys, or production configuration. Provide sanitized examples such as `.env.example`, document required variables, and use environment variables or a secrets manager for real values.
+Never commit secrets, credentials, API keys, or production configuration. Use `.env` locally and
+document safe placeholders in `.env.example`.
+
+RideTogether will handle sensitive location data in future phases. Location sharing must require
+explicit user consent, be visible and easy to stop, and use appropriate access controls. Preserve
+the privacy and safety principles in `docs/privacy-and-safety.md` when adding related features.
+
+## Git Practices
+
+Keep commits focused and use short imperative messages when asked to commit. Never commit or push
+unless explicitly instructed.
