@@ -6,18 +6,22 @@ without trying to replace established mapping and navigation products.
 
 ## Current status
 
-Phase 1 establishes the repository and application foundations only. The mobile app and family
-web app display their initial branded screens, and the API exposes a health endpoint. There is no
-authentication, trip creation, map, GPS tracking, Socket.IO, chat, family sharing, recommendation,
-or database-backed product functionality yet.
+Phase 2 adds user authentication. The mobile app has login, registration, an authenticated profile
+screen, and logout. The API persists users and revocable sessions in PostgreSQL and exposes
+authentication endpoints. Trips, maps, GPS tracking, Socket.IO, chat, family sharing,
+recommendations, and other travel features are not implemented.
+
+The PostgreSQL integration is covered by migrations and repository code but has not been exercised
+against a local running PostgreSQL instance in this workspace. Apply the migrations below before
+using authentication endpoints outside API tests.
 
 ## Technology stack
 
 - Flutter and Dart for the mobile app.
 - Node.js, Express, and strict TypeScript for the API.
 - Next.js and TypeScript for the future family viewer.
-- PostgreSQL is prepared through an initial migration; Redis, Firebase, maps, routing, and FCM are
-  planned integrations.
+- PostgreSQL persists users and authentication sessions. Redis, Firebase, maps, routing, and FCM
+  remain planned integrations.
 
 ## Repository structure
 
@@ -38,8 +42,16 @@ docs/              Architecture, API, privacy, and decision documentation
 
 ## Environment configuration
 
-Copy `.env.example` to `.env` and set only the variables needed for your local work. The Phase 1
-health endpoint needs no secrets and no database. Never commit `.env` files or service keys.
+Copy `.env.example` to `.env`. The health endpoint needs no secrets or database. Authentication
+requires `DATABASE_URL` and a unique `AUTH_JWT_SECRET` of at least 32 characters. Never commit
+`.env` files or service keys.
+
+Apply migrations in order before using authentication endpoints:
+
+```powershell
+psql $env:DATABASE_URL -f infra/migrations/0001_database_foundation.sql
+psql $env:DATABASE_URL -f infra/migrations/0002_users_and_auth_sessions.sql
+```
 
 ## Local development
 
@@ -63,16 +75,15 @@ pnpm web:dev
 # Open http://localhost:3000
 ```
 
-Run the mobile application after Flutter is installed. The first command generates the native
-Android/iOS runners if they are not already present:
+Run the mobile application after Flutter is installed. Configure the local API address for the
+target device with `API_BASE_URL`; Android emulators can use `http://10.0.2.2:3000`.
 
 ```powershell
 Set-Location apps/mobile
-flutter create --platforms=android,ios .
 flutter pub get
 flutter analyze
 flutter test
-flutter run
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:3000
 ```
 
 Run JavaScript checks from the repository root:
@@ -87,8 +98,8 @@ pnpm format:check
 
 ## Planned MVP capabilities
 
-After the foundation is reviewed, the MVP will add Firebase-backed authentication, trip creation
-and joining, explicit location-sharing controls, a shared map through an established mapping SDK,
+The next MVP phases will add trip creation and joining, explicit location-sharing controls, a shared
+map through an established mapping SDK,
 quick coordination statuses, a conservative separation indicator, and secure read-only family
 links. Navigation, chat, multi-day planning, trekking, gamification, recommendations, weather,
 and AI remain later-phase work.

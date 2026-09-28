@@ -1,9 +1,10 @@
 # Privacy and safety
 
-## Phase 1 status
+## Phase 2 status
 
-Phase 1 does not collect, transmit, store, or display a person's location. It does not implement
-authentication, trips, chat, emergency alerts, or family sharing.
+Phase 2 does not collect, transmit, store, or display a person's location. It stores a display
+name, normalized email address, Argon2id password hash, and server-side session metadata for
+authenticated accounts. Passwords are never stored or logged in plaintext.
 
 ## Required principles for later phases
 

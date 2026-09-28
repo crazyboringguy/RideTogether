@@ -7,14 +7,18 @@ function nodeEnvironment(value: string | undefined): NodeEnvironment {
     : 'development';
 }
 
-function port(value: string | undefined): number {
-  const parsed = Number(value ?? 3000);
-  return Number.isInteger(parsed) && parsed > 0 && parsed <= 65535 ? parsed : 3000;
+function positiveInteger(value: string | undefined, fallback: number, maximum?: number): number {
+  const parsed = Number(value ?? fallback);
+  return Number.isInteger(parsed) && parsed > 0 && (!maximum || parsed <= maximum)
+    ? parsed
+    : fallback;
 }
 
 export const environment = Object.freeze({
   nodeEnv: nodeEnvironment(process.env.NODE_ENV),
-  port: port(process.env.PORT),
+  port: positiveInteger(process.env.PORT, 3000, 65535),
   databaseUrl: process.env.DATABASE_URL,
   redisUrl: process.env.REDIS_URL,
+  authJwtSecret: process.env.AUTH_JWT_SECRET,
+  authTokenTtlMinutes: positiveInteger(process.env.AUTH_TOKEN_TTL_MINUTES, 15),
 });

@@ -3,5 +3,6 @@ packages:
   - apps/family-web
   - packages/*
 allowBuilds:
+  argon2: true
   esbuild: set this to true or false
   unrs-resolver: set this to true or false
