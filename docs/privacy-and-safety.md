@@ -1,6 +1,6 @@
 # Privacy and safety
 
-## Phase 2 status
+## Phase 3 status
 
 Phase 2 does not collect, transmit, store, or display a person's location. It stores a display
 name, normalized email address, Argon2id password hash, and server-side session metadata for

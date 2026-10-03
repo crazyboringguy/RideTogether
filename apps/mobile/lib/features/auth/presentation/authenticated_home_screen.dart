@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../application/auth_controller.dart';
+import '../../trips/presentation/trips_screen.dart';
 
 class AuthenticatedHomeScreen extends StatelessWidget {
   const AuthenticatedHomeScreen({super.key, required this.controller});
@@ -33,8 +34,15 @@ class AuthenticatedHomeScreen extends StatelessWidget {
               const SizedBox(height: 8),
               Text(user.email),
               const SizedBox(height: 24),
-              const Text(
-                  'Your account is ready. Trip coordination will arrive in a future phase.'),
+              FilledButton.icon(
+                onPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute<void>(
+                    builder: (_) => TripsScreen(authController: controller),
+                  ),
+                ),
+                icon: const Icon(Icons.route_outlined),
+                label: const Text('My trips'),
+              ),
             ],
           ),
         ),

@@ -6,10 +6,11 @@ without trying to replace established mapping and navigation products.
 
 ## Current status
 
-Phase 2 adds user authentication. The mobile app has login, registration, an authenticated profile
-screen, and logout. The API persists users and revocable sessions in PostgreSQL and exposes
-authentication endpoints. Trips, maps, GPS tracking, Socket.IO, chat, family sharing,
-recommendations, and other travel features are not implemented.
+Phase 3 adds authenticated trip creation, joining by a server-generated code, and membership
+viewing. The mobile app has login, registration, a profile screen, and focused screens to create,
+join, list, and inspect trips. The API persists users, revocable sessions, trips, and trip
+memberships in PostgreSQL. Maps, GPS tracking, Socket.IO, chat, family sharing, recommendations,
+and other travel features are not implemented.
 
 The PostgreSQL integration is covered by migrations and repository code but has not been exercised
 against a local running PostgreSQL instance in this workspace. Apply the migrations below before
@@ -20,8 +21,8 @@ using authentication endpoints outside API tests.
 - Flutter and Dart for the mobile app.
 - Node.js, Express, and strict TypeScript for the API.
 - Next.js and TypeScript for the future family viewer.
-- PostgreSQL persists users and authentication sessions. Redis, Firebase, maps, routing, and FCM
-  remain planned integrations.
+- PostgreSQL persists users, authentication sessions, trips, and memberships. Redis, Firebase,
+  maps, routing, and FCM remain planned integrations.
 
 ## Repository structure
 
@@ -51,6 +52,7 @@ Apply migrations in order before using authentication endpoints:
 ```powershell
 psql $env:DATABASE_URL -f infra/migrations/0001_database_foundation.sql
 psql $env:DATABASE_URL -f infra/migrations/0002_users_and_auth_sessions.sql
+psql $env:DATABASE_URL -f infra/migrations/0003_trips_and_memberships.sql
 ```
 
 ## Local development
@@ -98,8 +100,8 @@ pnpm format:check
 
 ## Planned MVP capabilities
 
-The next MVP phases will add trip creation and joining, explicit location-sharing controls, a shared
-map through an established mapping SDK,
+The next MVP phases will add explicit location-sharing controls, a shared map through an established
+mapping SDK,
 quick coordination statuses, a conservative separation indicator, and secure read-only family
 links. Navigation, chat, multi-day planning, trekking, gamification, recommendations, weather,
 and AI remain later-phase work.

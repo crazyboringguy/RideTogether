@@ -34,6 +34,7 @@ class AuthController extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
   String? _token;
+  String? get accessToken => _token;
 
   Future<void> initialize() async {
     final token = await _sessionStore.readToken();

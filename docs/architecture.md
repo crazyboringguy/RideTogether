@@ -1,17 +1,18 @@
 # Architecture
 
-## Phase 2 implementation
+## Phase 3 implementation
 
 RideTogether is a monorepo with three independent applications:
 
-- `apps/mobile`: Flutter/Dart mobile application shell.
-- `apps/api`: Node.js, Express, and TypeScript API with a `GET /health` endpoint.
+- `apps/mobile`: Flutter/Dart application with authentication and focused trip-management screens.
+- `apps/api`: Node.js, Express, and TypeScript API with health, authentication, and trip endpoints.
 - `apps/family-web`: Next.js and TypeScript static foundation for the future read-only viewer.
 
 The API runs without PostgreSQL or Redis for its health check, so deployment diagnostics remain
-available during local setup. Authentication endpoints use PostgreSQL through a focused repository
-layer. The database has `users` for account records and `auth_sessions` for server-side session
-revocation; no trip or location schema exists.
+available during local setup. Authentication and trips use PostgreSQL through focused repository
+layers. The database has `users` for account records, `auth_sessions` for server-side session
+revocation, `trips` for trip metadata, and `trip_members` for membership and role data. Creating a
+trip and adding its host membership occur in one transaction.
 
 The PostgreSQL integration requires a configured, running database with migrations applied. It is
 not exercised by the in-memory API test suite in this workspace.
@@ -32,4 +33,4 @@ Family web dashboard ── read-only API ── secure, expiring share tokens
 ```
 
 Firebase, Firebase Cloud Messaging, maps, routing, real-time Socket.IO, location tracking, chat,
-trips, and family sharing remain planned capabilities, not Phase 2 functionality.
+and family sharing remain planned capabilities, not Phase 3 functionality.

@@ -3,17 +3,17 @@
 ## Project Status and Scope
 
 RideTogether is a group-travel safety and coordination platform for road trips, motorcycle
-convoys, trekking groups, and multi-day journeys. **Phase 1 — Foundation is complete.** Develop
+convoys, trekking groups, and multi-day journeys. **Phase 3 — Trip Creation, Joining, and
+Membership Management is complete.** Develop
 incrementally by phase; do not implement a future phase unless it is explicitly requested.
 
-Phase 1 provides only a Flutter branded application shell and test, an Express `GET /health`
-endpoint and test, a Next.js family-viewer foundation and test, a PostgreSQL schema-foundation
-migration, workspace/repository configuration, documentation, and an environment template.
+Phase 3 includes the Phase 1 foundation, Phase 2 account authentication, and authenticated trip
+creation, joining by server-generated codes, and membership viewing. It provides Flutter trip
+screens and API endpoints backed by the PostgreSQL `trips` and `trip_members` tables.
 
-Authentication, user accounts, trip creation or joining, database-backed trip data, GPS/location
-sharing, Socket.IO, live maps, quick statuses, chat, separation detection, emergency flows, family
-live-sharing links, trip completion/history, recommendations, hotels, trekking or multi-day
-features, Fun Mode, and AI are not implemented.
+GPS/location sharing, Socket.IO, live maps, quick statuses, chat, separation detection, emergency
+flows, family live-sharing links, trip completion/history, recommendations, hotels, trekking or
+multi-day features, Fun Mode, and AI are not implemented.
 
 ## Project Structure
 
